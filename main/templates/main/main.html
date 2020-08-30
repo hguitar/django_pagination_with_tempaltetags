@@ -1,0 +1,44 @@
+{% load templatehelpers %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+</head>
+<body>
+{% for data in datas %}
+<p>{{data}}</p>
+{%endfor%}
+
+
+
+
+<div class="pagination">
+    <span class="step-links">
+        {% if datas.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="{% relative_url datas.previous_page_number 'page' request.GET.urlencode %}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ datas.number }} of {{ datas.paginator.num_pages }}.
+        </span>
+
+        {% if datas.has_next %}
+            <a href="{% relative_url datas.next_page_number 'page' request.GET.urlencode %}">next</a>
+            <a href="{% relative_url datas.paginator.num_pages 'page' request.GET.urlencode %}">last &raquo;</a>
+        {% endif %}
+        <a href="{% relative_url '10' 'num_per_page' request.GET.urlencode %}">Show 10</a>
+        <a href="{% relative_url '25' 'num_per_page' request.GET.urlencode %}">Show 25</a>
+        <a href="">Show 75</a>
+        <form action="{% relative_url page request.GET.urlencode %}" method="get">
+  			Goto<input type="text" name="page" />
+  			<input type="submit" value="Submit" />
+		</form>
+    </span>
+</div>
+
+</body>
+</html>
+
